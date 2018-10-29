@@ -153,8 +153,6 @@ class ScratchCard extends React.Component {
               display="flex"
               justifyContent="center"
               alignItems="center"
-              width={`${width}px`}
-              height={`${height}px`}
             >
               {React.Children.only(children)}
             </ScratchCardContentSC>

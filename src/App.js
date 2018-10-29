@@ -13,8 +13,8 @@ const scratchCard = (width, height, percentToFinish, subRectRatio) => (
       subRectRatio={subRectRatio}
     >
       <img
-        width="150"
-        height="150"
+        width={width}
+        height={height}
         src="https://jennamolby.com/wp-content/uploads/2016/08/sorry.png"
         alt="scratch card"
       />
@@ -28,19 +28,19 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <Flex>
-            {scratchCard(150, 150)}
-            {scratchCard(150, 150)}
-            {scratchCard(150, 150)}
+            {scratchCard(75, 75)}
+            {scratchCard(75, 75)}
+            {scratchCard(75, 75)}
           </Flex>
           <Flex>
-            {scratchCard(150, 150)}
-            {scratchCard(150, 150)}
-            {scratchCard(150, 150)}
+            {scratchCard(75, 75)}
+            {scratchCard(75, 75)}
+            {scratchCard(75, 75)}
           </Flex>
           <Flex>
-            {scratchCard(150, 150)}
-            {scratchCard(150, 150)}
-            {scratchCard(150, 150)}
+            {scratchCard(75, 75)}
+            {scratchCard(75, 75)}
+            {scratchCard(75, 75)}
           </Flex>
         </header>
       </div>
