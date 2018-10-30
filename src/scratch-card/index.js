@@ -93,9 +93,9 @@ class ScratchCard extends React.Component {
   initMouseEventListeners() {
     const canvas = this.refs.canvas
     const scratching = this.scratching
-    this.offset = getOffset(canvas)
     canvas.addEventListener('mousedown', (event) => {
       event.preventDefault()
+      this.offset = getOffset(canvas)
       canvas.addEventListener('mousemove', scratching)
       document.body.addEventListener('mouseup', function cancelScratch() {
         canvas.removeEventListener('mousemove', scratching)
@@ -106,9 +106,9 @@ class ScratchCard extends React.Component {
   initTouchEventListeners() {
     const canvas = this.refs.canvas
     const scratching = this.scratching
-    this.offset = getOffset(canvas)
     canvas.addEventListener('touchstart', (event) => {
       event.preventDefault()
+      this.offset = getOffset(canvas)
       canvas.addEventListener('touchmove', scratching)
       document.body.addEventListener('touchend', function cancelScratch() {
         canvas.removeEventListener('touchmove', scratching)
