@@ -4,7 +4,6 @@ import throttle from 'lodash.throttle'
 import ScratchCardSC from './scratch-card-sc'
 import ScratchCardContentSC from './scratch-card-content-sc'
 import CanvasWrapperSC from './canvas-wrapper-sc'
-
 import {getOffset} from '../utils'
 
 // TODO: disable context menu
@@ -14,7 +13,6 @@ import {getOffset} from '../utils'
 class ScratchCard extends React.Component {
   constructor(props) {
     super(props)
-    // internal prop for ctx needs to update instantly and isn't relevant for render updates
     this.ctx = null
     this.offset = null
     this.state = {
@@ -96,7 +94,6 @@ class ScratchCard extends React.Component {
     const canvas = this.refs.canvas
     const scratching = this.scratching
     this.offset = getOffset(canvas)
-    console.log(this.offset)
     canvas.addEventListener('mousedown', (event) => {
       event.preventDefault()
       canvas.addEventListener('mousemove', scratching)
@@ -110,7 +107,6 @@ class ScratchCard extends React.Component {
     const canvas = this.refs.canvas
     const scratching = this.scratching
     this.offset = getOffset(canvas)
-    console.log(this.offset)
     canvas.addEventListener('touchstart', (event) => {
       event.preventDefault()
       canvas.addEventListener('touchmove', scratching)
@@ -126,6 +122,19 @@ class ScratchCard extends React.Component {
     this.renderForeground()
     this.initMouseEventListeners()
     this.initTouchEventListeners()
+    window.addEventListener(
+      'resize',
+      throttle(() => {
+        this.offset = getOffset(this.refs.canvas)
+      }, 100)
+    )
+
+    window.addEventListener(
+      'scroll',
+      throttle(() => {
+        this.offset = getOffset(this.refs.canvas)
+      }, 16)
+    )
   }
 
   render() {
