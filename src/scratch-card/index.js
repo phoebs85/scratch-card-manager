@@ -5,6 +5,8 @@ import ScratchCardSC from './scratch-card-sc'
 import ScratchCardContentSC from './scratch-card-content-sc'
 import CanvasWrapperSC from './canvas-wrapper-sc'
 
+import {getOffset} from '../utils'
+
 // TODO: disable context menu
 
 // accepts only one child as prop
@@ -14,6 +16,7 @@ class ScratchCard extends React.Component {
     super(props)
     // internal prop for ctx needs to update instantly and isn't relevant for render updates
     this.ctx = null
+    this.offset = null
     this.state = {
       foregroundRendered: false,
       percentScratched: 0,
@@ -39,10 +42,9 @@ class ScratchCard extends React.Component {
 
   scratching = throttle((event) => {
     event.preventDefault()
-    const radius = 26
-    const {left, top} = this.refs.canvas.getBoundingClientRect()
-    const mouseX = event.clientX - left
-    const mouseY = event.clientY - top
+    const radius = 20
+    const mouseX = event.clientX - this.offset.left
+    const mouseY = event.clientY - this.offset.top
     const {brush = 'circle'} = this.props
     if (brush === 'spray') {
     } else {
@@ -93,6 +95,8 @@ class ScratchCard extends React.Component {
   initMouseEventListeners() {
     const canvas = this.refs.canvas
     const scratching = this.scratching
+    this.offset = getOffset(canvas)
+    console.log(this.offset)
     canvas.addEventListener('mousedown', (event) => {
       event.preventDefault()
       canvas.addEventListener('mousemove', scratching)
@@ -105,6 +109,8 @@ class ScratchCard extends React.Component {
   initTouchEventListeners() {
     const canvas = this.refs.canvas
     const scratching = this.scratching
+    this.offset = getOffset(canvas)
+    console.log(this.offset)
     canvas.addEventListener('touchstart', (event) => {
       event.preventDefault()
       canvas.addEventListener('touchmove', scratching)
