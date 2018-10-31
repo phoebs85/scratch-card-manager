@@ -70,7 +70,6 @@ class ScratchCard extends React.Component {
     )
     const imageDataLength = imageData.data.length
     for (let i = 0; i < imageDataLength; i += 4) {
-      // increment when pixel is completely clear
       if (
         imageData.data[i] === 0 &&
         imageData.data[i + 1] === 0 &&
@@ -85,56 +84,57 @@ class ScratchCard extends React.Component {
         (counter / (subRectRatio * subRectRatio * width * height)) * 10000
       ) / 100
     this.setState({
-      percentScratched: newPercentScratched,
-      finished: newPercentScratched >= percentToFinish
+      percentScratched: newPercentScratched
+    })
+    if (newPercentScratched >= percentToFinish) {
+      this.finish()
+    }
+  }
+
+  finish() {
+    const {onFinish = () => {}} = this.props
+    this.setState({finished: true})
+    this.ctx.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
+    onFinish()
+  }
+
+  mouseScratch = (event) => {
+    event.preventDefault()
+    const canvas = this.refs.canvas
+    const scratching = this.scratching
+    this.offset = getOffset(canvas)
+    canvas.addEventListener('mousemove', scratching)
+    document.body.addEventListener('mouseup', function cancelScratch() {
+      canvas.removeEventListener('mousemove', scratching)
+      document.body.removeEventListener('mouseup', cancelScratch)
     })
   }
 
-  initMouseEventListeners() {
+  touchScratch = (event) => {
+    event.preventDefault()
     const canvas = this.refs.canvas
     const scratching = this.scratching
-    canvas.addEventListener('mousedown', (event) => {
-      event.preventDefault()
-      this.offset = getOffset(canvas)
-      canvas.addEventListener('mousemove', scratching)
-      document.body.addEventListener('mouseup', function cancelScratch() {
-        canvas.removeEventListener('mousemove', scratching)
-        document.body.removeEventListener('mouseup', cancelScratch)
-      })
+    this.offset = getOffset(canvas)
+    canvas.addEventListener('touchmove', scratching)
+    document.body.addEventListener('touchend', function cancelScratch() {
+      canvas.removeEventListener('touchmove', scratching)
+      document.body.removeEventListener('touchend', cancelScratch)
     })
   }
-  initTouchEventListeners() {
-    const canvas = this.refs.canvas
-    const scratching = this.scratching
-    canvas.addEventListener('touchstart', (event) => {
-      event.preventDefault()
-      this.offset = getOffset(canvas)
-      canvas.addEventListener('touchmove', scratching)
-      document.body.addEventListener('touchend', function cancelScratch() {
-        canvas.removeEventListener('touchmove', scratching)
-        document.body.removeEventListener('touchend', cancelScratch)
-      })
-    })
-  }
+
+  recalculateOffset = throttle(
+    () => (this.offset = getOffset(this.refs.canvas)),
+    40
+  )
 
   componentDidMount() {
     this.ctx = this.refs.canvas.getContext('2d')
     this.renderForeground()
-    this.initMouseEventListeners()
-    this.initTouchEventListeners()
-    window.addEventListener(
-      'resize',
-      throttle(() => {
-        this.offset = getOffset(this.refs.canvas)
-      }, 100)
-    )
-
-    window.addEventListener(
-      'scroll',
-      throttle(() => {
-        this.offset = getOffset(this.refs.canvas)
-      }, 16)
-    )
+    const canvas = this.refs.canvas
+    canvas.addEventListener('mousedown', this.mouseScratch)
+    canvas.addEventListener('touchstart', this.touchScratch)
+    window.addEventListener('resize', this.recalculateOffset)
+    window.addEventListener('scroll', this.recalculateOffset)
   }
 
   render() {
