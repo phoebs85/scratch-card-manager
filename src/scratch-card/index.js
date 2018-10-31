@@ -95,11 +95,16 @@ class ScratchCard extends React.Component {
     const {onFinish = () => {}} = this.props
     this.setState({finished: true})
     this.ctx.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
+    this.refs.canvas.removeEventListener('mousedown', this.mouseScratch)
+    this.refs.canvas.removeEventListener('touchstart', this.touchScratch)
+    window.removeEventListener('resize', this.recalculateOffset)
+    window.removeEventListener('scroll', this.recalculateOffset)
     onFinish()
   }
 
   mouseScratch = (event) => {
     event.preventDefault()
+    console.log('mouseScratch')
     const canvas = this.refs.canvas
     const scratching = this.scratching
     this.offset = getOffset(canvas)

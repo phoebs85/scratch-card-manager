@@ -4,6 +4,7 @@ const ScratchCardContentSC = styled(Section)`
   left: 0;
   overflow: hidden;
   position: absolute;
+  pointer-events: none;
   top: 0;
   width: 100%;
   height: auto;
