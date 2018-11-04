@@ -3,7 +3,7 @@
  * @param element
  * @returns {Object} offset
  */
-export function getOffset(element) {
+export const getOffset = (element) => {
   let offset = {
     left: 0,
     top: 0

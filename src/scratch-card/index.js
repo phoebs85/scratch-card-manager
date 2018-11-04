@@ -6,8 +6,6 @@ import ScratchCardContentSC from './scratch-card-content-sc'
 import CanvasWrapperSC from './canvas-wrapper-sc'
 import {getOffset} from '../utils'
 
-// TODO: disable context menu
-
 // accepts only one child as prop
 // if children content of this component overflow, it will be hidden
 class ScratchCard extends React.Component {
@@ -15,6 +13,9 @@ class ScratchCard extends React.Component {
     super(props)
     this.ctx = null
     this.offset = null
+    this.radius = 20
+    this.xPos = null
+    this.yPos = null
     this.state = {
       foregroundRendered: false,
       percentScratched: 0,
@@ -38,20 +39,26 @@ class ScratchCard extends React.Component {
     }
   }
 
+  updatePos(event) {
+    if (event.type === 'mousemove') {
+      this.xPos = event.clientX - this.offset.left - this.radius / 2
+      this.yPos = event.clientY - this.offset.top - this.radius / 2
+      return
+    }
+    if (event.type === 'touchmove') {
+      this.xPos = event.touches[0].clientX - this.offset.left - this.radius / 2
+      this.yPos = event.touches[0].clientY - this.offset.top - this.radius / 2
+    }
+  }
+
   scratching = throttle((event) => {
     event.preventDefault()
-    const radius = 20
-    const mouseX = event.clientX - this.offset.left
-    const mouseY = event.clientY - this.offset.top
+    this.offset = getOffset(this.refs.canvas)
+    this.updatePos(event)
     const {brush = 'circle'} = this.props
     if (brush === 'spray') {
     } else {
-      this.ctx.clearRect(
-        mouseX - radius / 2,
-        mouseY - radius / 2,
-        radius,
-        radius
-      )
+      this.ctx.clearRect(this.xPos, this.yPos, this.radius, this.radius)
     }
     this.updatePercentScratched()
   }, 40)
@@ -104,10 +111,9 @@ class ScratchCard extends React.Component {
 
   mouseScratch = (event) => {
     event.preventDefault()
-    console.log('mouseScratch')
     const canvas = this.refs.canvas
     const scratching = this.scratching
-    this.offset = getOffset(canvas)
+
     canvas.addEventListener('mousemove', scratching)
     document.body.addEventListener('mouseup', function cancelScratch() {
       canvas.removeEventListener('mousemove', scratching)
@@ -119,7 +125,6 @@ class ScratchCard extends React.Component {
     event.preventDefault()
     const canvas = this.refs.canvas
     const scratching = this.scratching
-    this.offset = getOffset(canvas)
     canvas.addEventListener('touchmove', scratching)
     document.body.addEventListener('touchend', function cancelScratch() {
       canvas.removeEventListener('touchmove', scratching)
