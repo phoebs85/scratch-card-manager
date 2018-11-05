@@ -13,7 +13,7 @@ class ScratchCard extends React.Component {
     super(props)
     this.ctx = null
     this.offset = null
-    this.radius = 12
+    this.radius = 16
     this.xPos = null
     this.yPos = null
     this.state = {
