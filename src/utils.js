@@ -11,7 +11,8 @@ export const backgroundElementMapper = {
   ),
   default: (width, height, val) => (
     <h6 width={width} height={height}>
-      {val} points!
+      <div>{val}</div>
+      <div>points!</div>
     </h6>
   )
 }

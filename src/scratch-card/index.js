@@ -21,7 +21,6 @@ class ScratchCard extends React.Component {
       percentScratched: 0,
       finished: false
     }
-    this.updatePercentScratched.bind(this)
   }
   renderForeground() {
     const {width, height} = this.refs.canvas
@@ -114,13 +113,15 @@ class ScratchCard extends React.Component {
 
   finish() {
     const {onFinish = () => {}} = this.props
-    this.setState({finished: true})
     this.ctx.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
     this.refs.canvas.removeEventListener('mousedown', this.mouseScratch)
     this.refs.canvas.removeEventListener('touchstart', this.touchScratch)
     window.removeEventListener('resize', this.recalculateOffset)
     window.removeEventListener('scroll', this.recalculateOffset)
-    onFinish()
+    if (!this.finished) {
+      onFinish()
+      this.finished = true
+    }
   }
 
   mouseScratch = (event) => {
@@ -162,30 +163,10 @@ class ScratchCard extends React.Component {
   }
 
   render() {
-    const {
-      children,
-      height,
-      width,
-      subRectRatio,
-      percentToFinish,
-      demo
-    } = this.props
+    const {children, height, width} = this.props
+
     return (
       <div>
-        {demo && (
-          <div>
-            <h3>
-              Status:{' '}
-              <strong>
-                {this.state.finished ? 'Complete!' : 'Ongoing...'}
-              </strong>
-            </h3>
-            <div>Sub-Rectangle Ratio: {subRectRatio || 1} </div>
-            <div>Percent To Finish: {percentToFinish || 50}%</div>
-            <div>{this.state.percentScratched}% Clear</div>
-          </div>
-        )}
-
         <ScratchCardSC width={`${width}px`} height={`${height}px`}>
           {this.state.foregroundRendered && (
             <ScratchCardContentSC
