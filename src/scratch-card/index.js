@@ -58,6 +58,7 @@ class ScratchCard extends React.Component {
     this.ctx.save()
     const {brush = 'circle'} = this.props
     if (brush === 'spray') {
+    } else if (brush === 'brush') {
     } else {
       this.ctx.beginPath()
       this.ctx.arc(

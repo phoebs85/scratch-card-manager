@@ -33,6 +33,11 @@
 
 .Game {
   background-color: #FBF5F3;
-  color: #C42847;
-  font-family: 'Lobster', cursive;
+  color: #03120E;
+  font-family: 'Helvetica';
+}
+
+h4 {
+  font-size: calc(5px + 2vmin);
+  font-weight: initial;
 }

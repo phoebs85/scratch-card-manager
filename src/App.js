@@ -48,9 +48,8 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <div className="Game">
-              <h4>Scratch to Win!</h4>
+              <h4>SCRATCH THE LOGO</h4>
               <Flex>{scratchCard(300, 300, 0, this.handleFinish)}</Flex>
-              <h5>YOU WON {this.state.score} POINTS!</h5>
             </div>
           </header>
         </div>
