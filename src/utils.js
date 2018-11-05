@@ -3,12 +3,7 @@ import Section from './section'
 import FlexItem from './flex/flex-item'
 export const backgroundElementMapper = {
   0: (width, height) => (
-    <img
-      width={width}
-      height={height}
-      src="https://media.giphy.com/media/94EQmVHkveNck/giphy.gif"
-      alt="scratch card"
-    />
+    <img width={width} height={height} src="/laughing.gif" alt="scratch card" />
   ),
   400: (width, height) => (
     <img

@@ -11,10 +11,10 @@ const scratchCard = (width, height, value, handleFinish) => {
       <ScratchCard
         width={width}
         height={height}
-        percentToFinish={80}
-        subRectRatio={0.5}
+        percentToFinish={70}
+        subRectRatio={0.8}
         value={value}
-        imgURL="./overlay.png"
+        imgURL="./overlay.gif"
         onFinish={() => handleFinish(value)}
       >
         {backgroundElementMapper[value]
@@ -49,7 +49,7 @@ class App extends Component {
           <header className="App-header">
             <div className="Game">
               <h4>Scratch to Win!</h4>
-              <Flex>{scratchCard(300, 200, 0, this.handleFinish)}</Flex>
+              <Flex>{scratchCard(300, 300, 0, this.handleFinish)}</Flex>
               <h5>YOU WON {this.state.score} POINTS!</h5>
             </div>
           </header>
