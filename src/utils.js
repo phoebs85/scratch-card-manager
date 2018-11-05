@@ -1,3 +1,20 @@
+import React from 'react'
+
+export const backgroundElementMapper = {
+  0: (width, height) => (
+    <img
+      width={width}
+      height={height}
+      src="https://jennamolby.com/wp-content/uploads/2016/08/sorry.png"
+      alt="scratch card"
+    />
+  ),
+  default: (width, height, val) => (
+    <h6 width={width} height={height}>
+      {val} points!
+    </h6>
+  )
+}
 /**
  * Get the real offset
  * @param element
@@ -30,4 +47,12 @@ export const getOffset = (element) => {
         ? offset.top + Math.abs(deltaTop)
         : offset.top - Math.abs(deltaTop)
   }
+}
+
+export const shuffle = (arr) => {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[arr[i], arr[j]] = [arr[j], arr[i]]
+  }
+  return arr
 }

@@ -8,7 +8,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #03120E;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -29,4 +29,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Game {
+  background-color: #FBF5F3;
+  color: #C42847;
+  font-family: 'Lobster', cursive;
 }

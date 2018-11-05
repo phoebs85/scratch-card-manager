@@ -13,7 +13,7 @@ class ScratchCard extends React.Component {
     super(props)
     this.ctx = null
     this.offset = null
-    this.radius = 20
+    this.radius = 12
     this.xPos = null
     this.yPos = null
     this.state = {
@@ -55,11 +55,25 @@ class ScratchCard extends React.Component {
     event.preventDefault()
     this.offset = getOffset(this.refs.canvas)
     this.updatePos(event)
+    this.ctx.globalCompositeOperation = 'destination-out'
+    this.ctx.save()
     const {brush = 'circle'} = this.props
     if (brush === 'spray') {
     } else {
-      this.ctx.clearRect(this.xPos, this.yPos, this.radius, this.radius)
+      this.ctx.beginPath()
+      this.ctx.arc(
+        this.xPos + this.radius,
+        this.yPos + this.radius,
+        this.radius,
+        0,
+        Math.PI * 2,
+        false
+      )
+      this.ctx.fill()
+      this.ctx.closePath()
+      // this.ctx.clearRect(this.xPos, this.yPos, this.radius, this.radius)
     }
+    this.ctx.restore()
     this.updatePercentScratched()
   }, 40)
 
