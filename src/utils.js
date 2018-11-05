@@ -1,5 +1,6 @@
 import React from 'react'
-
+import Section from './section'
+import FlexItem from './flex/flex-item'
 export const backgroundElementMapper = {
   0: (width, height) => (
     <img
@@ -9,11 +10,27 @@ export const backgroundElementMapper = {
       alt="scratch card"
     />
   ),
+  400: (width, height) => (
+    <img
+      width={width}
+      height={height}
+      src="https://jennamolby.com/wp-content/uploads/2016/08/400.png"
+      alt="scratch card"
+    />
+  ),
+  500: (width, height) => (
+    <img
+      width={width}
+      height={height}
+      src="https://jennamolby.com/wp-content/uploads/2016/08/500.png"
+      alt="scratch card"
+    />
+  ),
   default: (width, height, val) => (
-    <h6 width={width} height={height}>
-      <div>{val}</div>
-      <div>points!</div>
-    </h6>
+    <Section display="flex" width={width} height={height} textAlign="center">
+      <FlexItem>{val}</FlexItem>
+      <FlexItem>points!</FlexItem>
+    </Section>
   )
 }
 /**

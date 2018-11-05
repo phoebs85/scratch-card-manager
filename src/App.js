@@ -14,6 +14,7 @@ const scratchCard = (width, height, value, handleFinish) => {
         percentToFinish={80}
         subRectRatio={0.5}
         value={value}
+        imgURL="./overlay.png"
         onFinish={() => handleFinish(value)}
       >
         {backgroundElementMapper[value]
@@ -37,7 +38,7 @@ class App extends Component {
     this.setState({score: this.state.score + value})
   }
   componentDidMount() {
-    const cards = [0, 0, 0, 100, 100, 100, 200, 250, 500]
+    const cards = [0, 0, 0, 0, 0, 0, 400, 400, 500]
     this.setState({cards: shuffle(cards)})
   }
 
