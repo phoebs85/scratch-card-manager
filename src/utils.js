@@ -6,7 +6,7 @@ export const backgroundElementMapper = {
     <img
       width={width}
       height={height}
-      src="https://jennamolby.com/wp-content/uploads/2016/08/sorry.png"
+      src="https://media.giphy.com/media/94EQmVHkveNck/giphy.gif"
       alt="scratch card"
     />
   ),
