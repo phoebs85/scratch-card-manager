@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle'
 import ScratchCardSC from './scratch-card-sc'
 import ScratchCardContentSC from './scratch-card-content-sc'
 import CanvasWrapperSC from './canvas-wrapper-sc'
-import {getOffset} from '../utils'
+import {getOffset, loadImage} from '../utils'
 
 // accepts only one child as prop
 // if children content of this component overflow, it will be hidden
@@ -59,6 +59,19 @@ class ScratchCard extends React.Component {
     const {brush = 'circle'} = this.props
     if (brush === 'spray') {
     } else if (brush === 'brush') {
+      if (this.brushImage === null) {
+        let error = new Error('argument img is not a node IMG')
+        console.log(error.message)
+        return
+      }
+      let angle = Math.atan2(this.yPos, this.xPos)
+      this.ctx.translate(this.xPos, this.yPos)
+      this.ctx.rotate(angle)
+      this.ctx.drawImage(
+        this.brushImage,
+        -((this.brushImage.width * 2) / 3),
+        -((this.brushImage.height * 2) / 3)
+      )
     } else {
       this.ctx.beginPath()
       this.ctx.arc(
@@ -154,6 +167,12 @@ class ScratchCard extends React.Component {
   )
 
   componentDidMount() {
+    if (this.props.brush === 'brush') {
+      loadImage('/brush.png').then((image) => {
+        this.brushImage = image
+      })
+    }
+
     this.ctx = this.refs.canvas.getContext('2d')
     this.renderForeground()
     const canvas = this.refs.canvas

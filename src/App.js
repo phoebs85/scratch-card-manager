@@ -9,6 +9,7 @@ const scratchCard = (width, height, value, handleFinish) => {
   return (
     <FlexItem margin="sm">
       <ScratchCard
+        brush="brush"
         width={width}
         height={height}
         percentToFinish={70}
