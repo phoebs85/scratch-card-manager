@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const CanvasWrapperSC = styled.div`
-  cursor: url(./coin.png) 15 15, pointer;
+  cursor: url(./coin.png) 30 30, pointer;
   position: absolute;
   width: 100%;
   height: 100%;
