@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import ScratchCard from './scratch-card'
 import Flex from './flex'
 import FlexItem from './flex/flex-item'
-import {backgroundElementMapper, shuffle} from './utils'
 import './App.css'
 
 const scratchCard = (width, height, value, handleFinish) => {
@@ -18,9 +17,7 @@ const scratchCard = (width, height, value, handleFinish) => {
         imgURL="./overlay.gif"
         onFinish={() => handleFinish(value)}
       >
-        {backgroundElementMapper[value]
-          ? backgroundElementMapper[value](width, height)
-          : backgroundElementMapper.default(width, height, value)}
+        <img width={width} height={height} src="/background.gif" alt="scratch card" />
       </ScratchCard>
     </FlexItem>
   )
@@ -37,10 +34,6 @@ class App extends Component {
   }
   handleFinish(value) {
     this.setState({score: this.state.score + value})
-  }
-  componentDidMount() {
-    const cards = [0, 0, 0, 0, 0, 0, 400, 400, 500]
-    this.setState({cards: shuffle(cards)})
   }
 
   render() {
