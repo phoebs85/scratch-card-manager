@@ -27,7 +27,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      cards: null,
+      loaded: false,
       score: 0
     }
     this.handleFinish = this.handleFinish.bind(this)
@@ -36,16 +36,16 @@ class App extends Component {
     this.setState({score: this.state.score + value})
   }
   componentDidMount() {
-    this.setState({cards: true})
+    this.setState({loaded: true})
   }
 
   render() {
     return (
-      this.state.cards && (
+      this.state.loaded && (
         <div className="App">
           <header className="App-header">
             <div className="Game">
-              <h4 className="card-header">SCRATCH THE LOGO</h4>
+              <h4 className="card-header">THANKS FOR PARTICIPATING!</h4>
               <Flex>{scratchCard(300, 300, 0, this.handleFinish)}</Flex>
             </div>
           </header>
