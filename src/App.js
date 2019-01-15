@@ -35,6 +35,9 @@ class App extends Component {
   handleFinish(value) {
     this.setState({score: this.state.score + value})
   }
+  componentDidMount() {
+    this.setState({cards: true})
+  }
 
   render() {
     return (
