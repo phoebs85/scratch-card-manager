@@ -1,1 +1,6 @@
-Scratch Card 3 by 3 Panel, meant to resemble physical lottery scratch cards. Mobile friendly.
+Single panel scratchcard for demo purposes
+
+TODOs:
+1. Resize responsively depending on screen/window size
+2. Less hardcoded values
+3. Get rid of unused files that came with `create-react-app`

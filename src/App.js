@@ -11,7 +11,7 @@ const scratchCard = (width, height, value, handleFinish) => {
         brush="brush"
         width={width}
         height={height}
-        percentToFinish={50}
+        percentToFinish={70}
         subRectRatio={0.7}
         value={value}
         imgURL="./overlay.gif"
