@@ -4,36 +4,16 @@ import Flex from './flex'
 import FlexItem from './flex/flex-item'
 import './App.css'
 
-const scratchCard = (width, height, value, handleFinish) => {
-  return (
-    <FlexItem margin="sm">
-      <ScratchCard
-        brush="brush"
-        width={width}
-        height={height}
-        percentToFinish={70}
-        subRectRatio={0.7}
-        value={value}
-        imgURL="./overlay.gif"
-        onFinish={() => handleFinish(value)}
-      >
-        <img width={width} height={height} src="/background.gif" alt="scratch card" />
-      </ScratchCard>
-    </FlexItem>
-  )
-}
-
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      loaded: false,
-      score: 0
+      loaded: false
     }
     this.handleFinish = this.handleFinish.bind(this)
   }
-  handleFinish(value) {
-    this.setState({score: this.state.score + value})
+  handleFinish() {
+    console.log('done scratching')
   }
   componentDidMount() {
     this.setState({loaded: true})
@@ -46,7 +26,21 @@ class App extends Component {
           <header className="App-header">
             <div className="Game">
               <h4 className="card-header">THANKS FOR PARTICIPATING!</h4>
-              <Flex>{scratchCard(300, 300, 0, this.handleFinish)}</Flex>
+              <Flex>
+                <FlexItem margin="sm">
+                  <ScratchCard
+                    brush="brush"
+                    width={300}
+                    height={300}
+                    percentToFinish={70}
+                    subRectRatio={0.7}
+                    imgURL="./overlay.gif"
+                    onFinish={this.handleFinish}
+                  >
+                    <img width={300} height={300} src="/background.gif" alt="scratch card" />
+                  </ScratchCard>
+                </FlexItem>
+              </Flex>
             </div>
           </header>
         </div>
