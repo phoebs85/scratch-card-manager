@@ -177,8 +177,7 @@ class ScratchCard extends React.Component {
   render() {
     const {children, height, width} = this.props
     const {foregroundRendered, isFinished} = this.state
-    console.log('isFinished', isFinished)
-    console.log('foregroundRendered', foregroundRendered)
+
     return (
       <div>
         <ScratchCardSC width={`${width}px`} height={`${height}px`}>
