@@ -8,6 +8,10 @@ server.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 
+server.get('/prizes', function (req, res) {
+  res.json({prize: 'hoodie'})
+})
+
 const port = process.env.PORT || 8080
 server.listen(port)
 

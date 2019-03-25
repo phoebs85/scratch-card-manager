@@ -20,7 +20,9 @@ class App extends Component {
   handleFinish() {
     setStatus('complete')
   }
-  componentDidMount() {
+  async componentDidMount() {
+    const response = await fetch('/prizes')
+    console.log('response', await response.json())
     this.setState({loaded: true})
     // check for completion status
     const status = getStatus()
