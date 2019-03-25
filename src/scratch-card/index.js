@@ -23,7 +23,7 @@ class ScratchCard extends React.Component {
     }
   }
   renderForeground() {
-    const {isFinished, imgURL} = this.props
+    const {imgURL, isFinished} = this.props
     if (!isFinished) {
       const {width, height} = this.refs.canvas
       if (imgURL) {
@@ -31,14 +31,18 @@ class ScratchCard extends React.Component {
         image.src = imgURL
         image.onload = () => {
           this.ctx.drawImage(image, 0, 0, width, height)
+          // setState needs to be invoked after the image loads if imgURL exists
+          this.setState({foregroundRendered: true})
         }
       } else {
         // default to silver foreground if no image url is provided
         this.ctx.fillStyle = 'silver'
         this.ctx.fillRect(0, 0, width, height)
+        this.setState({foregroundRendered: true})
       }
+    } else {
+      this.setState({foregroundRendered: true})
     }
-    this.setState({foregroundRendered: true})
   }
 
   updatePos(event) {
@@ -165,8 +169,9 @@ class ScratchCard extends React.Component {
   }
 
   componentWillUnmount() {
+    const {isFinished} = this.state
     // remove event listeners safely if they haven't been removed by this.finish()
-    if (!this.state.isFinished) {
+    if (!isFinished) {
       this.refs.canvas.removeEventListener('mousedown', this.mouseScratch)
       this.refs.canvas.removeEventListener('touchstart', this.touchScratch)
       window.removeEventListener('resize', this.recalculateOffset)
