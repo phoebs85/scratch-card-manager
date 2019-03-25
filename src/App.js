@@ -1,27 +1,38 @@
 import React, {Component} from 'react'
+
+import './App.css'
+
 import ScratchCard from './scratch-card'
 import Flex from './flex'
 import FlexItem from './flex/flex-item'
-import './App.css'
+
+import {getStatus, setStatus} from './local-storage'
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      loaded: false
+      loaded: false,
+      isFinished: false
     }
     this.handleFinish = this.handleFinish.bind(this)
   }
   handleFinish() {
-    console.log('done scratching')
+    setStatus('complete')
   }
   componentDidMount() {
     this.setState({loaded: true})
+    // check for completion status
+    const status = getStatus()
+    if (status === 'complete') {
+      this.setState({isFinished: true})
+    }
   }
 
   render() {
+    const {loaded, isFinished} = this.state
     return (
-      this.state.loaded && (
+      loaded && (
         <div className="App">
           <header className="App-header">
             <div className="Game">
@@ -29,6 +40,7 @@ class App extends Component {
               <Flex>
                 <FlexItem margin="sm">
                   <ScratchCard
+                    isFinished={isFinished}
                     brush="brush"
                     width={300}
                     height={300}
