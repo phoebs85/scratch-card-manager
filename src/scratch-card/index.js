@@ -21,6 +21,8 @@ class ScratchCard extends React.Component {
       percentScratched: 0,
       isFinished: false
     }
+    // retains same this context for removeEventListener
+    this.scratching = this.scratching.bind(this)
   }
   renderForeground() {
     const {imgURL, isFinished} = this.props
@@ -47,8 +49,8 @@ class ScratchCard extends React.Component {
 
   updatePos(event) {
     if (event.type === 'mousemove') {
-      this.xPos = event.clientX - this.offset.left - this.radius / 2
-      this.yPos = event.clientY - this.offset.top - this.radius / 2
+      this.xPos = event.clientX - this.offset.left
+      this.yPos = event.clientY - this.offset.top
       return
     }
     if (event.type === 'touchmove') {
@@ -73,7 +75,7 @@ class ScratchCard extends React.Component {
       let angle = Math.atan2(this.yPos, this.xPos)
       this.ctx.translate(this.xPos, this.yPos)
       this.ctx.rotate(angle)
-      this.ctx.drawImage(this.brushImage, -this.brushImage.width, -this.brushImage.height)
+      this.ctx.drawImage(this.brushImage, -this.brushImage.width / 2, -this.brushImage.height / 2)
     } else {
       this.ctx.beginPath()
       this.ctx.arc(this.xPos + this.radius, this.yPos + this.radius, this.radius, 0, Math.PI * 2, false)
@@ -129,19 +131,23 @@ class ScratchCard extends React.Component {
   }
 
   mouseScratch = (event) => {
-    event.preventDefault() 
-    this.refs.canvas.addEventListener('mousemove', this.scratching)
+    event.preventDefault()
+    const canvas = this.refs.canvas
+    const scratching = this.scratching
+    canvas.addEventListener('mousemove', scratching)
     document.body.addEventListener('mouseup', function cancelScratch() {
-      this.refs.canvas.removeEventListener('mousemove', this.scratching)
+      canvas.removeEventListener('mousemove', scratching)
       document.body.removeEventListener('mouseup', cancelScratch)
     })
   }
 
   touchScratch = (event) => {
     event.preventDefault()
-    this.refs.canvas.addEventListener('touchmove', this.scratching)
+    const canvas = this.refs.canvas
+    const scratching = this.scratching
+    canvas.addEventListener('touchmove', scratching)
     document.body.addEventListener('touchend', function cancelScratch() {
-      this.refs.canvas.removeEventListener('touchmove', this.scratching)
+      canvas.removeEventListener('touchmove', scratching)
       document.body.removeEventListener('touchend', cancelScratch)
     })
   }
