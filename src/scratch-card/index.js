@@ -19,14 +19,14 @@ class ScratchCard extends React.Component {
     this.state = {
       foregroundRendered: false,
       percentScratched: 0,
-      isFinished: false
+      isCleared: false
     }
     // retains same this context for removeEventListener
     this.scratching = this.scratching.bind(this)
   }
   renderForeground() {
-    const {imgURL, isFinished} = this.props
-    if (!isFinished) {
+    const {imgURL, isCleared} = this.props
+    if (!isCleared) {
       const {width, height} = this.refs.canvas
       if (imgURL) {
         const image = new Image()
@@ -91,7 +91,7 @@ class ScratchCard extends React.Component {
     const {width, height} = this.refs.canvas
     // Sub-rectangle ratio, determines how much outer space within the image
     // is being ignored for percentage cleared calculations
-    const {subRectRatio = 1, percentToFinish = 50} = this.props
+    const {subRectRatio = 1, percentToClear = 50} = this.props
     const imageData = this.ctx.getImageData(
       Math.round(((1 - subRectRatio) / 2) * width),
       Math.round(((1 - subRectRatio) / 2) * height),
@@ -113,21 +113,21 @@ class ScratchCard extends React.Component {
     this.setState({
       percentScratched: newPercentScratched
     })
-    if (newPercentScratched >= percentToFinish) {
-      this.finish()
+    if (newPercentScratched >= percentToClear) {
+      this.clearCard()
     }
   }
 
-  finish() {
-    const {onFinish = () => {}} = this.props
+  clearCard() {
+    const {onClear = () => {}} = this.props
 
     this.refs.canvas.removeEventListener('mousedown', this.mouseScratch)
     this.refs.canvas.removeEventListener('touchstart', this.touchScratch)
     window.removeEventListener('resize', this.recalculateOffset)
     window.removeEventListener('scroll', this.recalculateOffset)
 
-    this.setState({isFinished: true})
-    onFinish()
+    this.setState({isCleared: true})
+    onClear()
   }
 
   mouseScratch = (event) => {
@@ -155,7 +155,7 @@ class ScratchCard extends React.Component {
   recalculateOffset = throttle(() => (this.offset = getOffset(this.refs.canvas)), 40)
 
   componentDidMount() {
-    const {brush, isFinished} = this.props
+    const {brush, isCleared} = this.props
     if (brush === 'brush') {
       loadImage('/brush.png').then((image) => {
         this.brushImage = image
@@ -169,15 +169,15 @@ class ScratchCard extends React.Component {
     window.addEventListener('scroll', this.recalculateOffset)
 
     // @todo don't do everything above if status is complete, to be more performant
-    if (isFinished) {
-      this.finish()
+    if (isCleared) {
+      this.clearCard()
     }
   }
 
   componentWillUnmount() {
-    const {isFinished} = this.state
-    // remove event listeners safely if they haven't been removed by this.finish()
-    if (!isFinished) {
+    const {isCleared} = this.state
+    // remove event listeners safely if they haven't been removed by this.clearCard()
+    if (!isCleared) {
       this.refs.canvas.removeEventListener('mousedown', this.mouseScratch)
       this.refs.canvas.removeEventListener('touchstart', this.touchScratch)
       window.removeEventListener('resize', this.recalculateOffset)
@@ -187,7 +187,7 @@ class ScratchCard extends React.Component {
 
   render() {
     const {children, height, width} = this.props
-    const {foregroundRendered, isFinished} = this.state
+    const {foregroundRendered, isCleared} = this.state
 
     return (
       <div>
@@ -197,7 +197,7 @@ class ScratchCard extends React.Component {
               {React.Children.only(children)}
             </ScratchCardContentSC>
           )}
-          {!isFinished && (
+          {!isCleared && (
             <CanvasWrapperSC>
               <canvas
                 onContextMenu={(event) => event.preventDefault()}

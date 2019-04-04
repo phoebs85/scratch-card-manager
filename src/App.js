@@ -6,33 +6,35 @@ import ScratchCard from './scratch-card'
 import Flex from './flex'
 import FlexItem from './flex/flex-item'
 
-import {getStatus, setStatus} from './local-storage'
+import {isCleared, setCleared, setLocalStorage} from './local-storage'
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
       loaded: false,
-      isFinished: false
+      isCleared: false
     }
-    this.handleFinish = this.handleFinish.bind(this)
+    this.handleCleared = this.handleCleared.bind(this)
   }
-  handleFinish() {
-    setStatus('complete')
+  
+  handleCleared() {
+    setCleared(true)
   }
+
   async componentDidMount() {
     const response = await fetch('/prizes')
-    console.log('response', await response.json())
+    const data = await response.json()
+    setLocalStorage(data)
+
     this.setState({loaded: true})
-    // check for completion status
-    const status = getStatus()
-    if (status === 'complete') {
-      this.setState({isFinished: true})
+    if (isCleared()) {
+      this.setState({isCleared: true})
     }
   }
 
   render() {
-    const {loaded, isFinished} = this.state
+    const {loaded, isCleared} = this.state
     return (
       loaded && (
         <div className="App">
@@ -42,14 +44,14 @@ class App extends Component {
               <Flex>
                 <FlexItem margin="sm">
                   <ScratchCard
-                    isFinished={isFinished}
+                    isCleared={isCleared}
                     brush="brush"
                     width={300}
                     height={300}
-                    percentToFinish={70}
+                    percentToClear={50}
                     subRectRatio={0.7}
                     imgURL="./overlay.gif"
-                    onFinish={this.handleFinish}
+                    onClear={this.handleCleared}
                   >
                     <img width={300} height={300} src="/background.gif" alt="scratch card" />
                   </ScratchCard>
