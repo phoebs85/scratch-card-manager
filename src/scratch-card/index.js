@@ -155,8 +155,7 @@ class ScratchCard extends React.Component {
   recalculateOffset = throttle(() => (this.offset = getOffset(this.refs.canvas)), 40)
 
   componentDidMount() {
-    const {brush, isCleared} = this.props
-    if (brush === 'brush') {
+    if (this.props.brush === 'brush') {
       loadImage('/brush.png').then((image) => {
         this.brushImage = image
       })
@@ -167,10 +166,13 @@ class ScratchCard extends React.Component {
     this.refs.canvas.addEventListener('touchstart', this.touchScratch)
     window.addEventListener('resize', this.recalculateOffset)
     window.addEventListener('scroll', this.recalculateOffset)
+  }
 
-    // @todo don't do everything above if status is complete, to be more performant
-    if (isCleared) {
-      this.clearCard()
+  componentDidUpdate(prevProps) {
+    if (this.props.isCleared !== prevProps.isCleared) {
+      if (this.props.isCleared) {
+        this.clearCard()
+      }
     }
   }
 

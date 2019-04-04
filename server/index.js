@@ -1,28 +1,40 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const uuidv4 = require('uuid/v4')
-const path = require('path')
+const {join} = require('path')
 
-const server = express()
-server.use(express.static(path.join(__dirname, '../build')))
-
-server.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '../build/index.html'))
-})
-
-const prizes = {
-  sweater: 15,
-  shirt: 40,
-  bands: 50,
-  notebook: 70
-}
+const {PrizeInterface} = require('./prize-interface')
 
 const sessionId = uuidv4()
+// Initiate Prizes
+const prizeInterface = new PrizeInterface({successRate: 75})
+prizeInterface.addPrize('sweater', 15)
+prizeInterface.addPrize('shirt', 40)
+prizeInterface.addPrize('band', 50)
+prizeInterface.addPrize('notebook', 15)
 
-server.get('/prizes', function (req, res) {
-  res.json({sessionId, prize: 'hoodie'})
+const server = express()
+server.use(bodyParser.json())
+server.use(express.static(join(__dirname, '../build')))
+
+server.get('/', function(req, res) {
+  return res.sendFile(join(__dirname, '../build/index.html'))
+})
+
+server.get('/status', function(req, res) {
+  return res.json(prizeInterface.status)
+})
+
+server.post('/prizes', function(req, res) {
+  if (req.body.sessionId === sessionId) {
+    return res.json({sessionId})
+  } else {
+    const prize = prizeInterface.assignRandomPrize()
+    return res.json({sessionId, prize: prize.shallow})
+  }
 })
 
 const port = process.env.PORT || 8080
 server.listen(port)
 
-console.log('App is listening on port ' + port)
+console.log(`App is listening on ${port}. Visit localhost:${port}`)

@@ -6,7 +6,7 @@ import ScratchCard from './scratch-card'
 import Flex from './flex'
 import FlexItem from './flex/flex-item'
 
-import {isCleared, setCleared, setLocalStorage} from './local-storage'
+import {isCleared, setCleared, setLocalStorage, getImageSrc, getSessionId} from './local-storage'
 
 class App extends Component {
   constructor() {
@@ -17,13 +17,19 @@ class App extends Component {
     }
     this.handleCleared = this.handleCleared.bind(this)
   }
-  
+
   handleCleared() {
     setCleared(true)
   }
 
   async componentDidMount() {
-    const response = await fetch('/prizes')
+    const response = await fetch('/prizes', {
+      method: 'post',
+      body: JSON.stringify({
+        sessionId: getSessionId() || ''
+      }),
+      headers: {'Content-type': 'application/json'}
+    })
     const data = await response.json()
     setLocalStorage(data)
 
@@ -35,6 +41,7 @@ class App extends Component {
 
   render() {
     const {loaded, isCleared} = this.state
+    const imgSrc = getImageSrc() || '/background.gif'
     return (
       loaded && (
         <div className="App">
@@ -53,7 +60,7 @@ class App extends Component {
                     imgURL="./overlay.gif"
                     onClear={this.handleCleared}
                   >
-                    <img width={300} height={300} src="/background.gif" alt="scratch card" />
+                    <img width={300} height={300} src={imgSrc} alt="scratch card" />
                   </ScratchCard>
                 </FlexItem>
               </Flex>
