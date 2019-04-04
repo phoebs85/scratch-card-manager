@@ -56,6 +56,12 @@ class PrizeInterface {
       return this.noPrize
     }
   }
+
+  resetAssignedPrizes() {
+    Object.values(this.inventory).forEach((prize) => {
+      prize.resetAssigned()
+    })
+  }
 }
 
 module.exports = {

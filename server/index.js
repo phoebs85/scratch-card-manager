@@ -10,7 +10,7 @@ const sessionId = uuidv4()
 const prizeInterface = new PrizeInterface({successRate: 75})
 prizeInterface.addPrize('sweater', 15)
 prizeInterface.addPrize('shirt', 40)
-prizeInterface.addPrize('band', 50)
+prizeInterface.addPrize('bands', 50)
 prizeInterface.addPrize('notebook', 15)
 
 const server = express()
@@ -32,6 +32,12 @@ server.post('/prizes', function(req, res) {
     const prize = prizeInterface.assignRandomPrize()
     return res.json({sessionId, prize: prize.shallow})
   }
+})
+
+server.post('/prizes/reset', function(req, res) {
+  const assignedPrizeCount = prizeInterface.totalQuantity('assigned')
+  prizeInterface.resetAssignedPrizes()
+  return res.json({...prizeInterface.status, resetCount: assignedPrizeCount})
 })
 
 const port = process.env.PORT || 8080
