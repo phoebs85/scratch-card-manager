@@ -65,7 +65,7 @@ class AdminPage extends React.Component {
         <header className="App-header">
           {inventory && (
             <React.Fragment>
-              <Flex alignItems="center">
+              <Flex alignItems="center" margin="sm">
                 {Object.values(inventory).map((item) => (
                   <PrizeItem {...item} redeemPrize={this.redeemPrize} />
                 ))}
