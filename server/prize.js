@@ -13,13 +13,6 @@ class Prize {
     this.name = name || ''
   }
 
-  get shallow() {
-    return {
-      id: this.id,
-      imageSrc: this.imageSrc
-    }
-  }
-
   assign() {
     const {available, assigned} = this.inventory
     if (available <= 0) {
@@ -27,7 +20,7 @@ class Prize {
     } else {
       this.inventory.available = available - 1
       this.inventory.assigned = assigned + 1
-      return this.shallow
+      return this
     }
   }
 
@@ -38,7 +31,7 @@ class Prize {
     } else {
       this.inventory.assigned = assigned - 1
       this.inventory.redeemed = redeemed + 1
-      return this.shallow
+      return this
     }
   }
 
