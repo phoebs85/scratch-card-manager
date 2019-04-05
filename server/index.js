@@ -26,7 +26,7 @@ server.post('/prizes', function(req, res) {
     return res.status(200).json({sessionId})
   } else {
     const prize = prizeInterface.assignRandomPrize()
-    return res.status(200).json({sessionId, prize: prize.shallow})
+    return res.status(200).json({sessionId, prize})
   }
 })
 

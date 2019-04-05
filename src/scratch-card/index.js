@@ -69,7 +69,7 @@ class ScratchCard extends React.Component {
     if (brush === 'brush') {
       if (this.brushImage === null) {
         let error = new Error('argument img is not a node IMG')
-        console.log(error.message)
+        console.error(error.message)
         return
       }
       let angle = Math.atan2(this.yPos, this.xPos)
