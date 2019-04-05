@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Flex from '../flex'
+import Flex from './flex'
 
 const neutrals = {
   neutral00: '#fff',
