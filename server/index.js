@@ -17,10 +17,6 @@ const server = express()
 server.use(bodyParser.json())
 server.use(express.static(join(__dirname, '../build')))
 
-server.get('/', function(req, res) {
-  return res.sendFile(join(__dirname, '../build/index.html'))
-})
-
 server.get('/status', function(req, res) {
   return res.json(prizeInterface.status)
 })
@@ -40,7 +36,11 @@ server.post('/prizes/reset', function(req, res) {
   return res.json({...prizeInterface.status, resetCount: assignedPrizeCount})
 })
 
+server.get('/*', function(req, res) {
+  return res.sendFile(join(__dirname, '../build/index.html'))
+})
+
 const port = process.env.PORT || 8080
 server.listen(port)
 
-console.log(`App is listening on ${port}. Visit localhost:${port}`)
+console.log(`App is listening on ${port}. Visit http://localhost:${port}`)
