@@ -18,29 +18,29 @@ server.use(bodyParser.json())
 server.use(express.static(join(__dirname, '../build')))
 
 server.get('/status', function(req, res) {
-  return res.json(prizeInterface.status)
+  return res.status(200).json(prizeInterface.status)
 })
 
 server.post('/prizes', function(req, res) {
   if (req.body.sessionId === sessionId) {
-    return res.json({sessionId})
+    return res.status(200).json({sessionId})
   } else {
     const prize = prizeInterface.assignRandomPrize()
-    return res.json({sessionId, prize: prize.shallow})
+    return res.status(200).json({sessionId, prize: prize.shallow})
   }
 })
 
 server.post('/prizes/reset', function(req, res) {
   const assignedPrizeCount = prizeInterface.totalQuantity('assigned')
   prizeInterface.resetAssignedPrizes()
-  return res.json({...prizeInterface.status, resetCount: assignedPrizeCount})
+  return res.status(200).json({...prizeInterface.status, resetCount: assignedPrizeCount})
 })
 
 server.get('/*', function(req, res) {
-  return res.sendFile(join(__dirname, '../build/index.html'))
+  return res.status(200).sendFile(join(__dirname, '../build/index.html'))
 })
 
 const port = process.env.PORT || 8080
 server.listen(port)
 
-console.log(`App is listening on ${port}. Visit http://localhost:${port}`)
+console.log(`App is listening on port ${port}. Visit http://localhost:${port}`)
