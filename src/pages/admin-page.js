@@ -1,12 +1,8 @@
 import React from 'react'
-import {
-  PrimaryButton,
-  SecondaryButton,
-  TertiaryButton,
-  PlainButton,
-  UnstyledButton,
-  ButtonLinkStyle
-} from '@vclabs/web-components-buttons'
+import {toast} from 'react-toastify'
+import debounce from 'lodash.debounce'
+import {PrimaryButton} from '@vclabs/web-components-buttons'
+
 import Flex from '../flex'
 import FlexItem from '../flex/flex-item'
 import PieChart from '../pie-chart'
@@ -20,6 +16,7 @@ class AdminPage extends React.Component {
       intervalId: null
     }
     this.updateStatus = this.updateStatus.bind(this)
+    this.resetAssigned = this.resetAssigned.bind(this)
   }
 
   async updateStatus() {
@@ -28,7 +25,17 @@ class AdminPage extends React.Component {
     this.setState({inventory, successRate})
   }
 
-  async resetAssigned() {}
+  resetAssigned = debounce(async () => {
+    const response = await fetch('/prizes/reset', {
+      method: 'post'
+    })
+    const {inventory, resetCount} = await response.json()
+    toast(`Reset ${resetCount} prizes from assigned to available!`, {
+      autoClose: 8000
+    })
+    // Immediately update inventory
+    this.setState({inventory})
+  }, 400)
 
   componentDidMount() {
     this.updateStatus()
@@ -54,9 +61,12 @@ class AdminPage extends React.Component {
                   </FlexItem>
                 ))}
               </Flex>
-              <SecondaryButton>Reset Assigned Prizes</SecondaryButton>
+              <PrimaryButton onClick={this.resetAssigned}>
+                Reset Assigned Prizes
+              </PrimaryButton>
             </React.Fragment>
           )}
+
           {/* {successRate !== undefined && `Success Rate: ${successRate}%`} */}
         </header>
       </div>
