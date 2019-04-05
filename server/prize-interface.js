@@ -50,8 +50,12 @@ class PrizeInterface {
       const weightIndex = Object.keys(weightedPrizes).find((weight) => weight >= randomNumber)
 
       const prize = weightedPrizes[weightIndex]
-      prize.assign()
-      return prize
+      try {
+        return prize.assign()
+      } catch(error) {
+        console.error(error)
+        return this.noPrize
+      }
     } else {
       return this.noPrize
     }
@@ -61,6 +65,25 @@ class PrizeInterface {
     Object.values(this.inventory).forEach((prize) => {
       prize.resetAssigned()
     })
+  }
+
+  redeemPrize(prizeId) {
+    const prize = this.inventory[prizeId]
+    if (!prize) {
+      return {
+        error: 'This prize has no assigned items.'
+      }   
+    }
+    try {
+      const updatedPrize = prize.redeem()
+      return {
+        prize: updatedPrize
+      }
+    } catch (error) {
+      return {
+        prize, error
+      }
+    }
   }
 }
 

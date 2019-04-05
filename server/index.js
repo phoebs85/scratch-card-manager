@@ -30,6 +30,16 @@ server.post('/prizes', function(req, res) {
   }
 })
 
+server.post('/prizes/:id/redeem', function(req, res) {
+  const {id} = req.params
+  const resBody = prizeInterface.redeemPrize(id)
+  if (resBody.error) {
+    return res.status(400).json(resBody)
+  } else {
+    return res.status(200).json(resBody)
+  }
+})
+
 server.post('/prizes/reset', function(req, res) {
   const assignedPrizeCount = prizeInterface.totalQuantity('assigned')
   prizeInterface.resetAssignedPrizes()
