@@ -1,10 +1,12 @@
 import React from 'react'
 import {Pie} from 'react-chartjs-2/'
 
+import {colors} from './constants'
+
 const COLORS = {
-  AVAILABLE: '#157145',
-  ASSIGNED: '#FA9F42',
-  REDEEMED: '#1F5673'
+  AVAILABLE: colors.darkGreen,
+  ASSIGNED: colors.warningBorder,
+  REDEEMED: colors.darkBlue
 }
 
 const PieChart = ({inventory = {}}) => {

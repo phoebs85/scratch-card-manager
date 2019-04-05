@@ -1,5 +1,5 @@
 import React from 'react'
-import {PrimaryButton} from '@vclabs/web-components-buttons'
+import PrimaryButton from './buttons/primary-button'
 
 import FlexItem from './flex/flex-item'
 import PieChart from './pie-chart'

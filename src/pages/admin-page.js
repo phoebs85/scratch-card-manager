@@ -1,7 +1,7 @@
 import React from 'react'
 import {toast} from 'react-toastify'
 import debounce from 'lodash.debounce'
-import {PrimaryButton} from '@vclabs/web-components-buttons'
+import PrimaryButton from '../buttons/primary-button'
 
 import PrizeItem from '../prize-item'
 import Flex from '../flex'

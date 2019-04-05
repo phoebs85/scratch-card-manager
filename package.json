@@ -2,11 +2,7 @@
   "name": "scratchcard",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "10.11.0"
-  },
   "dependencies": {
-    "@vclabs/web-components-buttons": "^0.1.6",
     "body-parser": "^1.18.3",
     "chart.js": "^2.8.0",
     "express": "^4.16.4",

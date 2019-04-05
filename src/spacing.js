@@ -1,27 +1,5 @@
 import styled from 'styled-components'
-
-const unit = 8
-
-const layout = {
-  subUnit: `${unit / 2}px`,
-  negSubUnit: `-${unit / 2}px`,
-  unit: `${unit}px`,
-  tapSize: `${unit * 5}px`,
-  desktopWidthMax: '1600px',
-  sidebarWidth: '204px',
-  inputHeight: '34px'
-}
-
-const spacing = {
-  '-sm': layout.negSubUnit,
-  '-md': `-${unit * 1.5}px`,
-  '-lg': `-${unit * 2}px`,
-  '-xlg': `-${unit * 3}px`,
-  sm: layout.subUnit,
-  md: `${unit * 1.5}px`,
-  lg: `${unit * 2}px`,
-  xlg: `${unit * 3}px`
-}
+import {spacing} from './constants'
 
 const setSpacingValue = (unit, direction) => {
   const value = direction || unit
@@ -44,7 +22,7 @@ const calcSpacingValues = (
   return `${top} ${right} ${bottom} ${left}`
 }
 
-const marginSpacing = (props) =>
+export const marginSpacing = (props) =>
   calcSpacingValues(
     props.margin,
     props.marginTop,
