@@ -23,12 +23,12 @@ class Prize {
   assign() {
     const {available, assigned} = this.inventory
     if (available <= 0) {
-      console.log(`Attempted to assign ${this.name}, but ${available} available.`)
+      throw `Attempted to assign ${this.name}, but ${available} available.`
     } else {
       this.inventory.available = available - 1
       this.inventory.assigned = assigned + 1
+      return this.shallow
     }
-    return this.shallow
   }
 
   redeem() {
