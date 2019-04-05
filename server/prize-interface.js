@@ -26,7 +26,10 @@ class PrizeInterface {
   totalQuantity(status) {
     if (['available', 'assigned', 'redeemed'].includes(status)) {
       const prizesArray = Object.values(this.inventory)
-      return prizesArray.reduce((acc, prize) => acc + prize.inventory[status], 0)
+      return prizesArray.reduce(
+        (acc, prize) => acc + prize.inventory[status],
+        0
+      )
     } else {
       console.error(`Unrecognized status: ${status}`)
       return 0
@@ -47,13 +50,15 @@ class PrizeInterface {
       })
 
       const randomNumber = Math.random() * availableQuantity
-      const weightIndex = Object.keys(weightedPrizes).find((weight) => weight >= randomNumber)
+      const weightIndex = Object.keys(weightedPrizes).find(
+        (weight) => weight >= randomNumber
+      )
 
       const prize = weightedPrizes[weightIndex]
       try {
         return prize.assign()
-      } catch(error) {
-        console.error(error)
+      } catch (error) {
+        console.error(error.message)
         return this.noPrize
       }
     } else {
@@ -72,7 +77,7 @@ class PrizeInterface {
     if (!prize) {
       return {
         error: 'This prize has no assigned items.'
-      }   
+      }
     }
     try {
       const updatedPrize = prize.redeem()
@@ -80,8 +85,11 @@ class PrizeInterface {
         prize: updatedPrize
       }
     } catch (error) {
+      const {message} = error
+      console.error(message)
       return {
-        prize, error
+        error: message,
+        prize
       }
     }
   }

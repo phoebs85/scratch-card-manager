@@ -3,9 +3,8 @@ import {toast} from 'react-toastify'
 import debounce from 'lodash.debounce'
 import {PrimaryButton} from '@vclabs/web-components-buttons'
 
+import PrizeItem from '../prize-item'
 import Flex from '../flex'
-import FlexItem from '../flex/flex-item'
-import PieChart from '../pie-chart'
 
 class AdminPage extends React.Component {
   constructor() {
@@ -17,6 +16,7 @@ class AdminPage extends React.Component {
     }
     this.updateStatus = this.updateStatus.bind(this)
     this.resetAssigned = this.resetAssigned.bind(this)
+    this.redeemPrize = this.redeemPrize.bind(this)
   }
 
   async updateStatus() {
@@ -30,11 +30,21 @@ class AdminPage extends React.Component {
       method: 'post'
     })
     const {inventory, resetCount} = await response.json()
-    toast(`Reset ${resetCount} prizes from assigned to available!`, {
-      autoClose: 8000
-    })
-    // Immediately update inventory
+    toast(`Reset ${resetCount} prizes from assigned to available!`)
     this.setState({inventory})
+  }, 400)
+
+  redeemPrize = debounce(async (id) => {
+    const response = await fetch(`/prizes/${id}/redeem`, {
+      method: 'post'
+    })
+    const {prize, error} = await response.json()
+    if (error) {
+      toast(error)
+    } else {
+      this.setState({inventory: {prize}})
+      toast(`One ${prize.name} has been redeemed!`)
+    }
   }, 400)
 
   componentDidMount() {
@@ -48,6 +58,7 @@ class AdminPage extends React.Component {
   }
 
   render() {
+    // @todo: allow user to see and edit success rate
     const {inventory, successRate} = this.state
     return (
       <div className="App">
@@ -56,9 +67,7 @@ class AdminPage extends React.Component {
             <React.Fragment>
               <Flex alignItems="center">
                 {Object.values(inventory).map((item) => (
-                  <FlexItem margin="sm">
-                    <PieChart data={item} />
-                  </FlexItem>
+                  <PrizeItem {...item} redeemPrize={this.redeemPrize} />
                 ))}
               </Flex>
               <PrimaryButton onClick={this.resetAssigned}>
@@ -66,8 +75,6 @@ class AdminPage extends React.Component {
               </PrimaryButton>
             </React.Fragment>
           )}
-
-          {/* {successRate !== undefined && `Success Rate: ${successRate}%`} */}
         </header>
       </div>
     )

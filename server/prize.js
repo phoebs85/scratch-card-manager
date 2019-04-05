@@ -23,7 +23,7 @@ class Prize {
   assign() {
     const {available, assigned} = this.inventory
     if (available <= 0) {
-      throw `Attempted to assign ${this.name}, but ${available} available.`
+      throw new Error(`Attempted to assign ${this.name}, but ${available} available.`)
     } else {
       this.inventory.available = available - 1
       this.inventory.assigned = assigned + 1
@@ -34,7 +34,7 @@ class Prize {
   redeem() {
     const {assigned, redeemed} = this.inventory
     if (assigned <= 0) {
-      throw `Attempted to redeem ${this.name}, but ${available} assigned.`
+      throw new Error(`Attempted to redeem ${this.name}, but ${assigned} assigned.`)
     } else {
       this.inventory.assigned = assigned - 1
       this.inventory.redeemed = redeemed + 1

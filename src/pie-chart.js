@@ -7,8 +7,7 @@ const COLORS = {
   REDEEMED: '#1F5673'
 }
 
-const PieChart = ({data}) => {
-  const {imageSrc, inventory, name} = data
+const PieChart = ({inventory = {}}) => {
   const {available, assigned, redeemed} = inventory
   const chartData = {
     labels: ['Available', 'Assigned', 'Redeemed'],
@@ -27,8 +26,6 @@ const PieChart = ({data}) => {
   }
   return (
     <React.Fragment>
-      <h5>{name}</h5>
-      <img width={250} height={250} src={imageSrc} alt="scratch card" />
       <Pie width={250} height={250} data={chartData} />
     </React.Fragment>
   )

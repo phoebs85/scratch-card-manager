@@ -12,6 +12,7 @@ import AdminPage from './pages/admin-page'
 
 // Configures toast messages
 toast.configure({
+  autoClose: 8000,
   className: 'toast-container',
   position: toast.POSITION.TOP_CENTER
 })
