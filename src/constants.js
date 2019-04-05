@@ -22,6 +22,7 @@ export const colors = {
   messengerBlue: '#4990e2',
   darkBlue: '#3b75b7',
   darkGreen: '#336534',
+  darkYellow: '#EEB902',
   white: '#fff',
 }
 

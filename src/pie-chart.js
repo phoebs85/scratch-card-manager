@@ -5,7 +5,7 @@ import {colors} from './constants'
 
 const COLORS = {
   AVAILABLE: colors.darkGreen,
-  ASSIGNED: colors.warningBorder,
+  ASSIGNED: colors.darkYellow,
   REDEEMED: colors.darkBlue
 }
 
