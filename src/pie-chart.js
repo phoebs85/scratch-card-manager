@@ -1,17 +1,18 @@
 import React from 'react'
 import {Pie} from 'react-chartjs-2/'
 
+import Spacing from './spacing'
 import {colors} from './constants'
 
 const COLORS = {
-  AVAILABLE: colors.darkGreen,
-  ASSIGNED: colors.darkYellow,
-  REDEEMED: colors.darkBlue
+  AVAILABLE: colors.red,
+  ASSIGNED: colors.yellow,
+  REDEEMED: colors.blue
 }
 
 const PieChart = ({inventory = {}}) => {
   const {available, assigned, redeemed} = inventory
-  const chartData = {
+  const data = {
     labels: ['Available', 'Assigned', 'Redeemed'],
     datasets: [
       {
@@ -23,13 +24,22 @@ const PieChart = ({inventory = {}}) => {
           COLORS.REDEEMED
         ]
       }
-    ],
-    fontColor: 'white'
+    ]
   }
+
+  const options = {
+    legend: {
+      labels: {
+        fontColor: colors.white,
+        fontSize: 16
+      }
+    }
+  }
+
   return (
-    <React.Fragment>
-      <Pie width={250} height={250} data={chartData} />
-    </React.Fragment>
+    <Spacing margin="md">
+      <Pie width={250} height={250} data={data} options={options} />
+    </Spacing>
   )
 }
 

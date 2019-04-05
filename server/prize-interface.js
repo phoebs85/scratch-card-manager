@@ -56,7 +56,8 @@ class PrizeInterface {
 
       const prize = weightedPrizes[weightIndex]
       try {
-        return prize.assign()
+        prize.assign()
+        return prize
       } catch (error) {
         console.error(error.message)
         return this.noPrize
@@ -80,17 +81,14 @@ class PrizeInterface {
       }
     }
     try {
-      const updatedPrize = prize.redeem()
+      prize.redeem()
       return {
-        prize: updatedPrize
+        inventory: this.inventory
       }
     } catch (error) {
       const {message} = error
       console.error(message)
-      return {
-        error: message,
-        prize
-      }
+      return {error: message}
     }
   }
 }

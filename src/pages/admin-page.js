@@ -38,12 +38,12 @@ class AdminPage extends React.Component {
     const response = await fetch(`/prizes/${id}/redeem`, {
       method: 'post'
     })
-    const {prize, error} = await response.json()
+    const {inventory, error} = await response.json()
     if (error) {
       toast(error)
     } else {
-      this.setState({inventory: {prize}})
-      toast(`One ${prize.name} has been redeemed!`)
+      this.setState({inventory})
+      toast(`One ${inventory[id].name} has been redeemed!`)
     }
   }, 400)
 

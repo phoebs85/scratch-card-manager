@@ -18,11 +18,14 @@ export const border = {
 }
 
 export const colors = {
+  red: '#D62828',
+  blue: '#094074',
+  yellow: '#FFDD4A',
   lightBlue: '#dbe9f9',
   messengerBlue: '#4990e2',
-  darkBlue: '#3b75b7',
+  darkBlue: '#094074',
   darkGreen: '#336534',
-  darkYellow: '#EEB902',
+  darkYellow: '#FCBF49',
   white: '#fff',
 }
 

@@ -20,7 +20,6 @@ class Prize {
     } else {
       this.inventory.available = available - 1
       this.inventory.assigned = assigned + 1
-      return this
     }
   }
 
@@ -31,7 +30,6 @@ class Prize {
     } else {
       this.inventory.assigned = assigned - 1
       this.inventory.redeemed = redeemed + 1
-      return this
     }
   }
 
